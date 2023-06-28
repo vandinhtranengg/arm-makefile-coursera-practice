@@ -43,6 +43,7 @@ ifeq ($(PLATFORM), MSP432)
 	CC = arm-none-eabi-gcc
 	LD = arm-none-eabi-ld
 	OBJDUMP = arm-none-eabi-objdump
+	SIZE-UTL = arm-none-eabi-size
       	CPPFLAGS = $(INCLUDES)
 	CFLAGS = -mcpu=$(CPU) -mthumb -march=$(ARCH) -mfloat-abi=$(FLOAT-ABI) --specs=$(SPECS) $(GFLAGS) 
 	LDFLAGS = -Wl,-Map=$(OUTPUT).map -T $(LINKER_FILE)
@@ -55,6 +56,7 @@ else ifeq ($(PLATFORM), HOST)
 	CC = gcc
 	LD = ld
 	OBJDUMP = x86_64-linux-gnu-objdump
+	SIZE-UTL = size
 	CPPFLAGS = $(INCLUDES)
 	CFLAGS =  $(GFLAGS)
 	LDFLAGS = -Wl,-Map=$(OUTPUT).map
@@ -94,6 +96,7 @@ build:$(OUTPUT).out
 
 $(OUTPUT).out:$(OBJS)
 	$(CC) $^ $(CFLAGS) $(LDFLAGS) -o $@
+	$(SIZE-UTL) *.o *.out
 
 
 .PHONY: clean
