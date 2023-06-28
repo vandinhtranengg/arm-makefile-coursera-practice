@@ -35,7 +35,7 @@ ifeq ($(PLATFORM), MSP432)
 	TARGET = MSP432
 	CPU = cortex-m4
 	ARCH = armv7e-m
-	FLOAT-ABI = soft
+	FLOAT-ABI = hard
 	FPU = fpv4-sp-d16
 	SPECS = nosys.specs
 
@@ -45,7 +45,7 @@ ifeq ($(PLATFORM), MSP432)
 	OBJDUMP = arm-none-eabi-objdump
 	SIZE-UTL = arm-none-eabi-size
       	CPPFLAGS = $(INCLUDES)
-	CFLAGS = -mcpu=$(CPU) -mthumb -march=$(ARCH) -mfloat-abi=$(FLOAT-ABI) --specs=$(SPECS) $(GFLAGS) 
+	CFLAGS = $(GFLAGS) -mcpu=$(CPU) -mthumb -march=$(ARCH) -mfloat-abi=$(FLOAT-ABI) -mfpu=$(FPU) --specs=$(SPECS)
 	LDFLAGS = -Wl,-Map=$(OUTPUT).map -T $(LINKER_FILE)
 
 else ifeq ($(PLATFORM), HOST)
