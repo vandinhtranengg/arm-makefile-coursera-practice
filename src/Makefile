@@ -87,8 +87,7 @@ $(OUTPUT).asm: $(OUTPUT).out
 	$(OBJDUMP) -S $< > $@
 
 .PHONY: compile-all
-compile-all:
-	make $(OBJS) 	
+compile-all: $(OBJS) 	
 
 
 .PHONY: build
