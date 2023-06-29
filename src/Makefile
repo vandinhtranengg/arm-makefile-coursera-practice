@@ -44,7 +44,7 @@ ifeq ($(PLATFORM), MSP432)
 	LD = arm-none-eabi-ld
 	OBJDUMP = arm-none-eabi-objdump
 	SIZE-UTL = arm-none-eabi-size
-      	CPPFLAGS = $(INCLUDES)
+      	CPPFLAGS = -D$(TARGET) $(INCLUDES)
 	CFLAGS = $(GLAGS) -mcpu=$(CPU) -mthumb -march=$(ARCH) -mfloat-abi=$(FLOAT-ABI) -mfpu=$(FPU) --specs=$(SPECS)
 	LDFLAGS = -Wl,-Map=$(OUTPUT).map -T $(LINKER_FILE)
 
@@ -57,7 +57,7 @@ else ifeq ($(PLATFORM), HOST)
 	LD = ld
 	OBJDUMP = x86_64-linux-gnu-objdump
 	SIZE-UTL = size
-	CPPFLAGS = $(INCLUDES)
+	CPPFLAGS = -D$(TARGET) $(INCLUDES)
 	CFLAGS = $(GFLAGS)
 	LDFLAGS = -Wl,-Map=$(OUTPUT).map
 endif	
@@ -69,16 +69,16 @@ DEPS = $(SOURCES:.c=.d)
 OBJS = $(SOURCES:.c=.o)
 
 %.d : %.c
-	$(CC) -D$(TARGET) -MM $< $(CPPFLAGS) -o $@
+	$(CC)  -MM $< $(CPPFLAGS) -o $@
 
 %.i : %.c
-	$(CC) -D$(TARGET) -E $< $(CPPFLAGS) $(CFLAGS) -o $@
+	$(CC)  -E $< $(CPPFLAGS) $(CFLAGS) -o $@
 
 %.s : %.c
-	$(CC) -D$(TARGET) -S $< $(CPPFLAGS) $(CFLAGS) -o $@
+	$(CC)  -S $< $(CPPFLAGS) $(CFLAGS) -o $@
 
 %.o : %.c
-	$(CC) -D$(TARGET) -c $< $(CPPFLAGS) $(CFLAGS) -o $@
+	$(CC)  -c $< $(CPPFLAGS) $(CFLAGS) -o $@
 
 %.asm : %.o
 	$(OBJDUMP) -S $< > $@
